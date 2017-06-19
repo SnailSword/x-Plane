@@ -32,11 +32,8 @@
       <i class="icon ion-arrow-right-b"></i>
       </md-button>
 
-      <!--<md-button class="button button-positive" @click.native="">-->
-        <!--Click Me-->
-      <!--</md-button>-->
-      <!--<md-button class="button button-positive" @click.native="">-->
-        <!--Click Me-->
+      <!--<md-button class="button button-positive" @click.native="clicked()">-->
+        <!--撤销-->
       <!--</md-button>-->
     </div>
   </div>
@@ -82,6 +79,10 @@
         }
       },
       confirmPlane(n) {
+        if (!this.currentCell.x) {
+          $toast.show('先选一下飞机头呀', 1000);
+          return
+        }
         let x = this.currentCell.x;
         let y = this.currentCell.y;
         console.log(x, y, n);
@@ -92,7 +93,7 @@
         this.planeMap[x][y] = 0;
         this.$set(this.planeMap, 1, this.planeMap[1]);
         if(a.pushPlane([x, y, n])) {
-//          this.currentCell = {}
+          this.currentCell = {}
           this.$set(this.planeMap, 1 ,a.currentPlaneMap[1]);
           this.model = false;
         }
@@ -101,7 +102,7 @@
             this.$set(this.planeMap, i ,a.currentPlaneMap[i]);
           }
 //          console.log(this.planeMap)
-          $toast.show('这里不可以放飞机', 1000);
+          $toast.show('哦豁 这里不可以放飞机', 1000);
           this.currentCell = {}
         }
       }
