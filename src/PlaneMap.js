@@ -20,12 +20,9 @@ let PlaneMap = function () {
       [0, 0, 1, 0, 0],
       [0, 1, 1, 1, 0]
     ];
-
+  this.lastStep = [];
   this.currentPlaneStack = [];
   this.pushPlane = function (planeArray) {
-    // getOnePlaneArray([0, 5, 0]);
-    // getOnePlaneArray([5, 5, 2]);
-    // getOnePlaneArray([5, 5, 3]);
     // Deep Clone plane map, backup for roll back when push half plane
     let tempPlaneMap = [];
     for (let i = 0; i < 10; i++) {
@@ -34,8 +31,9 @@ let PlaneMap = function () {
         tempPlaneMap[i][j] = this.currentPlaneMap[i][j];
       }
     }
-    if (getOnePlaneArray(planeArray)) {
+    if (addOnePlane(planeArray)) {
       this.currentPlaneStack.push(planeArray);
+      this.lastStep.push(tempPlaneMap);
       return true;
     }
     else {
@@ -43,6 +41,14 @@ let PlaneMap = function () {
       return false;
     }
   };
+  this.popPlane = function () {
+    if (this.currentPlaneStack.length === 0) {
+      return false;
+    }
+    this.currentPlaneStack.pop();
+    this.currentPlaneMap = this.lastStep.pop();
+    return true;
+  }
   let me = this;
   this.planeWidth = this.planeShape[0].length;
   this.planeHeight = this.planeShape.length;
@@ -54,7 +60,7 @@ let PlaneMap = function () {
   // a,b为横纵坐标 c为飞机头方向
   // c=0 向上 c=1 向右 c=2 向下 c=3 向左
   // todo 把循环中的飞机长宽用变量代替
-  let getOnePlaneArray = function (plane) {
+  let addOnePlane = function (plane) {
     // thePlane为旋转后的飞机矩阵
     let resultMap = me.currentPlaneMap;
     // resultMap.map(() => new Array(10));
@@ -137,7 +143,6 @@ let PlaneMap = function () {
     }
     return true;
   }
-
   this.printCurrentMap = function () {
     console.log(this.currentPlaneMap);
   }

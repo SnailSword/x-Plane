@@ -1,6 +1,6 @@
 <template>
   <div>
-    <von-header theme="calm" class="xp-header">
+    <von-header theme="positive" class="xp-header">
       <button class="button button-icon ion-ios-arrow-back" slot="left"></button>
       <span slot="title">x-Plane</span>
       <button class="button button-icon ion-navicon" slot="right"></button>
@@ -31,10 +31,10 @@
       <md-button class="arrow-right button button-light button-fab" @click.native="confirmPlane(1)">
       <i class="icon ion-arrow-right-b"></i>
       </md-button>
-
-      <!--<md-button class="button button-positive" @click.native="clicked()">-->
-        <!--撤销-->
-      <!--</md-button>-->
+    </div>
+    <div class="button-container">
+      <md-button class="button button-Stable undo" @click.native="undo()">撤销</md-button>
+      <md-button class="button button-positive done" @click.native="done()">完成</md-button>
     </div>
   </div>
 </template>
@@ -48,7 +48,7 @@
       return {
         cellSize: '2rem',
         planeMap: a.currentPlaneMap,
-        planeStack: a.planeStack,
+        planeStack: a.currentPlaneStack,
         author: '毛一块',
         player: '毛衣毛',
         succeed: false,
@@ -77,9 +77,12 @@
 //          console.log(this.planeMap[3]);
 
         }
+        else {
+          $toast.show('哦豁 这里已经放过飞机了', 1000);
+        }
       },
       confirmPlane(n) {
-        if (!this.currentCell.x) {
+        if (!(this.currentCell.x + 1)) {
           $toast.show('先选一下飞机头呀', 1000);
           return
         }
@@ -105,6 +108,28 @@
           $toast.show('哦豁 这里不可以放飞机', 1000);
           this.currentCell = {}
         }
+      },
+      undo() {
+        if(a.popPlane()){
+          for (let i = 0; i < 10; i++) {
+            this.$set(this.planeMap, i ,a.currentPlaneMap[i]);
+          }
+        }
+        else {
+          $toast.show('已经没有可以撤回的飞机啦', 1000)
+        }
+      },
+      done() {
+        console.log(this.planeStack);
+        let planeAmount = this.planeStack.length;
+        let key = planeAmount + '';
+        for (let i = 0; i < planeAmount; i++) {
+          for (let  j = 0; j < 3; j++) {
+            key += this.planeStack[i][j];
+          }
+        }
+        key = btoa(key);
+        console.log(key);
       }
     },
     watch: {
@@ -123,3 +148,15 @@
     }
   }
 </script>
+<style>
+  .button-container {
+    position: fixed;
+    bottom: 20px;
+    right: 40px;
+  }
+  .undo,.done {
+    display: block;
+    width: 80px;
+    margin-bottom: 10px;
+  }
+</style>
