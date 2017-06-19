@@ -40,7 +40,6 @@ let PlaneMap = function () {
     }
     else {
       this.currentPlaneMap = tempPlaneMap;
-      console.log(this.currentPlaneMap);
       return false;
     }
   };

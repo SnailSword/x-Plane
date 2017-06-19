@@ -73,8 +73,12 @@
           };
 //          console.log('语句执行了');
           this.planeMap[i][j] = 2;
-          this.$set(this.planeMap, 1, this.planeMap[1]);
-//          console.log('函数执行完了');
+          this.$set(this.planeMap, i ,this.planeMap[i]);
+//          这里发现了一个奇怪的bug
+//          console.log('i,j ' + i, j);
+//          console.log(this.planeMap[i][j]);
+//          console.log(this.planeMap[3]);
+
         }
       },
       confirmPlane(n) {
@@ -93,21 +97,18 @@
           this.model = false;
         }
         else {
-//          a.printCurrentMap();
           for (let i = 0; i < 10; i++) {
             this.$set(this.planeMap, i ,a.currentPlaneMap[i]);
           }
 //          console.log(this.planeMap)
           $toast.show('这里不可以放飞机', 1000);
+          this.currentCell = {}
         }
-        console.log('model:' + this.model);
       }
     },
     watch: {
       currentCell: {
         handler: function (val, oldVal) {
-          console.log('currentCell Changed');
-          console.log('model:' + this.model);
           if (oldVal.x) {
             if (this.model) {
               a.currentPlaneMap[oldVal.x][oldVal.y] = 0;

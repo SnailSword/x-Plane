@@ -3,8 +3,8 @@
 - quick start
 
 ``` bash
-git clone https://github.com/wangdahoo/vonic-webpack-starter.git
-cd vonic-webpack-starter
+https://github.com/SnailSword/x-Plane.git
+cd x-Plane
 npm install -g yarn
 yarn
 ```
