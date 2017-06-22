@@ -1,5 +1,6 @@
 /**
  * Created by Saniac on 2017/5/24.
+ * 飞机阵类
  */
 let PlaneMap = function () {
   this.currentPlaneMap = [
@@ -48,7 +49,7 @@ let PlaneMap = function () {
     this.currentPlaneStack.pop();
     this.currentPlaneMap = this.lastStep.pop();
     return true;
-  }
+  };
   let me = this;
   this.planeWidth = this.planeShape[0].length;
   this.planeHeight = this.planeShape.length;
@@ -144,10 +145,38 @@ let PlaneMap = function () {
     return true;
   }
   this.printCurrentMap = function () {
-    console.log(this.currentPlaneMap);
+    // console.log(this.currentPlaneMap);
   }
 };
 
+// 编码解码函数
+PlaneMap.plane2key = function (planeStack) {
+  let planeAmount = planeStack.length;
+  if (planeAmount === 0) {
+    return false;
+  }
+  let key = '';
+  for (let i = 0; i < planeAmount; i++) {
+    for (let  j = 0; j < 3; j++) {
+      key += planeStack[i][j];
+    }
+  }
+  return btoa(key).split('').reverse().join('');
+};
+PlaneMap.key2plane = function (key) {
+  if (!key) {
+    return false;
+  }
+  let key1 = key.split('').reverse().join('');
+  try {key1 = atob(key1).split('').map((x) => parseInt(x))}
+  catch (err) {
+    return false;
+  }
+  let res = [];
+  while (key1.length) {
+    res.push(key1.splice(0, 3));
+  }
+  return res.length ? res : false;
+};
 
-// console.log(a.currentPlaneMap)
 export default PlaneMap;

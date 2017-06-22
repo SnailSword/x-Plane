@@ -1,6 +1,6 @@
 <template>
   <div>
-    <von-header theme="calm" class="xp-header">
+    <von-header theme="positive" class="xp-header">
       <button class="button button-icon ion-ios-arrow-back" slot="left"></button>
       <span slot="title">x-Plane</span>
       <button class="button button-icon ion-navicon" slot="right"></button>
@@ -28,7 +28,7 @@
       <list class="list-ios">
         <item>
           防守方：&nbsp;&nbsp; {{author}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <i class="ion-plane"></i>: 2
+          <i class="ion-plane"></i>: {{option.planeNum}}
         </item>
       </list>
     </div>
@@ -36,80 +36,8 @@
 
 </template>
 <script>
-  var defaultOption = {
-    grid: [10, 10],
-    planeShape: [
-      [0, 0, 2, 0, 0],
-      [1, 1, 1, 1, 1],
-      [0, 0, 1, 0, 0],
-      [0, 1, 1, 1, 0]
-    ],
-    planeNum: 3,
-    name: 'Peter'
-  };
-
-  var temp = [
-    [
-      [0, 0, 2, 0, 0, 0, 0, 0, 0, 0],
-      [1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
-      [0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
-      [0, 1, 1, 1, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
-      [0, 0, 0, 0, 0, 1, 0, 1, 0, 0],
-      [0, 0, 0, 0, 0, 1, 1, 1, 2, 0],
-      [0, 0, 0, 0, 0, 1, 0, 1, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-    ],
-    [
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
-      [0, 0, 0, 0, 1, 0, 1, 0, 0, 0],
-      [0, 0, 0, 1, 1, 1, 1, 2, 0, 0],
-      [0, 0, 0, 1, 1, 1, 1, 0, 0, 0],
-      [0, 0, 2, 1, 1, 1, 1, 0, 0, 0],
-      [0, 0, 0, 1, 0, 1, 0, 0, 0, 0],
-      [0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-    ],
-    [
-      [0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
-      [0, 0, 1, 1, 1, 1, 1, 0, 0, 0],
-      [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-      [0, 0, 0, 1, 1, 1, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 2, 0, 0, 0],
-      [0, 0, 0, 0, 1, 1, 1, 1, 1, 0],
-      [0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
-      [0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-    ],
-    [
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 2, 0, 0, 0, 0, 0, 0],
-      [0, 1, 1, 1, 1, 1, 0, 0, 0, 0],
-      [0, 0, 0, 1, 0, 0, 0, 1, 0, 0],
-      [0, 0, 1, 1, 1, 1, 0, 1, 0, 0],
-      [0, 0, 0, 0, 0, 1, 1, 1, 2, 0],
-      [0, 0, 0, 0, 0, 1, 0, 1, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-    ],
-    [
-      [0, 0, 2, 0, 0, 0, 0, 0, 0, 0],
-      [1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
-      [0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
-      [0, 1, 1, 1, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 1, 0, 1, 0, 0],
-      [0, 0, 0, 0, 2, 1, 1, 1, 0, 0],
-      [0, 0, 0, 0, 0, 1, 0, 1, 0, 0],
-      [0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-    ]
-  ];
+  import PlaneMap from 'PlaneMap';
+  let b = new PlaneMap();
 
   var temp2 = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -124,14 +52,61 @@
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
   ];
 
+  let getScore = function (step, n) {
+    const Highest = 2 * n;
+    const Lowest = 10 * n;
+    if (step < Highest) {
+      return 100;
+    }
+    if (step > Lowest) {
+      return n * n;
+    }
+    if (step >= Highest && step <= Lowest) {
+      let res = n * n + (100 - n * n) * (Lowest - step) / (Lowest - Highest);
+      return parseInt(res);
+    }
+  };
 
   export default {
     data() {
+      let noPFunction = function(dialogTitle) {
+        $dialog.confirm({
+          theme: 'scale',
+          title: dialogTitle,
+          okTheme: 'positive',
+          // 取消按钮文本
+          cancelText: '随便来一局',
+          // 确定按钮文本
+          okText: '布个阵给朋友'
+        }).then(function (res) {
+          console.log('confirm result: ', res);
+          if (res) {
+            $router.forward('/place');
+          }
+        })
+      };
+      let pKey = this.$route.query.q;
+      let planeStack = PlaneMap.key2plane(pKey);
+      if (pKey && planeStack) {
+        for (let i = 0; i < planeStack.length; i++) {
+          if(!b.pushPlane(planeStack[i])){
+            noPFunction('你可能是收到了一个假的飞机阵链接，请选择攻击一个随机飞机阵或给朋友布一个飞机阵。');
+          }
+        }
+      }
+      else {
+//        $router.forward('/about');
+        noPFunction('你可能是收到了一个假的飞机阵链接，请选择攻击一个随机飞机阵或给朋友布一个飞机阵。');
+      }
+
       return {
-        option: defaultOption,
+        option: {
+          grid: [10, 10],
+          planeNum: planeStack.length,
+          name: 'Peter'
+        },
         cellSize: '2rem',
-        planeMap: temp[Math.floor(Math.random() * 5)],
-        planeStack: [[0, 2, 0], [9, 7, 1]],
+        planeMap: b.currentPlaneMap,
         finished: 0,
         step: 0,
         isShowMap: temp2,
@@ -158,14 +133,14 @@
           // 设置为ios样式
           theme: 'scale',
           // 标题
-          title: '哈哈哈哈哈哈哈哈！' + this.player + '用' + this.step + '发子弹把' + this.author + '的' + this.planeStack.length + '级飞机阵歼灭',
-          okTheme: 'calm',
+          title: getScore(this.step, this.option.planeNum) + '分！' + this.player + '用' + this.step + '发子弹把' + this.author + '的' + this.option.planeNum + '级飞机阵歼灭',
+          okTheme: 'positive',
           // 取消按钮文本
           cancelText: '复盘',
           // 确定按钮文本
           okText: '重玩'
         }).then(function (res) {
-          console.log('confirm result: ', res)
+          console.log('confirm result: ', res);
           if (res) {
             window.location.reload();
           }
@@ -177,7 +152,7 @@
     },
     watch: {
       finished: function (val) {
-        if (val === this.planeStack.length) {
+        if (val === this.option.planeNum) {
           this.win();
         }
       }

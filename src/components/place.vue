@@ -88,7 +88,6 @@
         }
         let x = this.currentCell.x;
         let y = this.currentCell.y;
-        console.log(x, y, n);
 //        a.pushPlane([x, y, n]);
 //        a.printCurrentMap();
 //        a.pushPlane(x, y, n);
@@ -116,20 +115,27 @@
           }
         }
         else {
-          $toast.show('已经没有可以撤回的飞机啦', 1000)
+          $toast.show('已经没有可以撤回的飞机啦', 1000);
         }
       },
       done() {
-        console.log(this.planeStack);
-        let planeAmount = this.planeStack.length;
-        let key = planeAmount + '';
-        for (let i = 0; i < planeAmount; i++) {
-          for (let  j = 0; j < 3; j++) {
-            key += this.planeStack[i][j];
-          }
+        let key = PlaneMap.plane2key(this.planeStack);
+        let urlResult = window.location.host + '/#/guess?q=' + key;
+//        let urlResultDom = '<textarea>' + urlResult + '</textarea>';
+        let urlResultDom = '<input id="urlResult" type="text" value="' + urlResult + '"></input>';
+        if (key) {
+          $dialog.alert({
+            effect: 'scale',
+            title: '大功告成！',
+            content: '你的飞机阵地址为: ' + urlResultDom + '复制链接发给小伙伴猜一猜吧~',
+            okText: '复制好啦~',
+            okTheme: 'positive'
+          })
         }
-        key = btoa(key);
-        console.log(key);
+        else {
+          $toast.show('至少要放一个飞机哦', 1000);
+          return false;
+        }
       }
     },
     watch: {
@@ -158,5 +164,9 @@
     display: block;
     width: 80px;
     margin-bottom: 10px;
+  }
+  #urlResult {
+    padding: 0 0.5em;
+    margin: 0.5em 0;
   }
 </style>
